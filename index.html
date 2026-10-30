@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINOS | Conectividade, Tecnologia e Conforto</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luminosBg: '#F5F5F0',
+                        luminosCard: '#FFFFFF',
+                        luminosDark: '#1E232A',
+                        luminosTeal: '#3A7D7B',
+                        luminosTealLight: '#EBF3F2',
+                        luminosGold: '#D4AF37',
+                        luminosGoldHover: '#B89628',
+                        luminosGray: '#64748B',
+                        luminosBorder: '#E2E8F0'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F0;
+            color: #1E232A;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F5F5F0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* Glassmorphism utility */
+        .glass-nav {
+            background: rgba(245, 245, 240, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Subtle gradient animations */
+        .gold-teal-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #3A7D7B 100%);
+        }
+
+        .gold-teal-text {
+            background: linear-gradient(135deg, #B89628 0%, #3A7D7B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Smooth transition drawer */
+        .cart-drawer {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-luminosTeal selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-black/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                    <svg viewBox="0 0 100 100"
+                        class="w-10 h-10 transition-transform duration-300 group-hover:scale-105">
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#D4AF37" />
+                                <stop offset="100%" stop-color="#3A7D7B" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 28,20 L 48,20 L 48,65 L 75,65 L 75,80 L 28,80 Z" fill="none" stroke="url(#logoGrad)"
+                            stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+                        <path d="M 40,32 L 60,32 L 60,52 L 40,52 Z" fill="none" stroke="url(#logoGrad)" stroke-width="5"
+                            stroke-linejoin="round" opacity="0.85" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-bold tracking-wider text-luminosDark font-sans">LUMINOS</span>
+            </a>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                <input type="text" id="searchInput" oninput="handleSearch()"
+                    placeholder="Buscar celulares, Starlink, fones, cadeiras..."
+                    class="w-full bg-white/80 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-sm focus:outline-none focus:border-luminosTeal focus:ring-2 focus:ring-luminosTeal/20 transition-all shadow-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400 text-sm"></i>
+            </div>
+
+            <!-- Header Right Controls -->
+            <div class="flex items-center gap-3 sm:gap-5">
+                <a href="https://wa.me/5592994367989" target="_blank"
+                    class="hidden sm:flex items-center gap-2 text-xs font-semibold text-luminosTeal bg-luminosTealLight hover:bg-luminosTeal hover:text-white px-3.5 py-2 rounded-full transition-all">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>Atendimento</span>
+                </a>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCart()"
+                    class="relative p-2.5 rounded-full bg-white border border-slate-200 text-luminosDark hover:border-luminosTeal hover:text-luminosTeal transition-all shadow-sm focus:outline-none">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cartBadge"
+                        class="absolute -top-1 -right-1 bg-luminosGold text-luminosDark text-xs font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-luminosDark focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar Sub-row -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative w-full">
+                <input type="text" id="searchInputMobile" oninput="handleSearchMobile()"
+                    placeholder="Buscar produtos..."
+                    class="w-full bg-white border border-slate-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-luminosTeal">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+
+        <!-- HERO SECTION -->
+        <section class="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                    <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                        <div
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-luminosTeal shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-luminosGold animate-pulse"></span>
+                            Tecnologia de Ponta & Conectividade Sem Limites
+                        </div>
+
+                        <h1
+                            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-luminosDark leading-tight">
+                            Eleve seu estilo de vida com a <span class="gold-teal-text">LUMINOS</span>.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-luminosGray max-w-2xl mx-auto lg:mx-0 font-normal">
+                            Conectividade, Tecnologia e Conforto para o seu Dia a Dia. Encontre iPhones de última
+                            geração, Kits Starlink para sinal em qualquer lugar, áudio imersivo e cadeiras gamer
+                            ergonômicas.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#catalog"
+                                class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-luminosDark text-white font-medium hover:bg-slate-800 transition-all shadow-md text-center flex items-center justify-center gap-2 group">
+                                <span>Explorar Catálogo</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                            </a>
+                            <a href="#starlink-highlight"
+                                class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white border border-slate-200 text-luminosDark font-medium hover:border-luminosTeal hover:text-luminosTeal transition-all shadow-sm text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-satellite text-luminosTeal"></i>
+                                <span>Soluções Starlink</span>
+                            </a>
+                        </div>
+
+                        <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/60 max-w-lg mx-auto lg:mx-0">
+                            <div class="text-center lg:text-left">
+                                <p class="text-xs text-luminosGray uppercase font-medium">Entrega</p>
+                                <p class="text-xs sm:text-sm font-bold text-luminosDark">Todo o Brasil</p>
+                            </div>
+                            <div class="text-center lg:text-left">
+                                <p class="text-xs text-luminosGray uppercase font-medium">Garantia</p>
+                                <p class="text-xs sm:text-sm font-bold text-luminosDark">Oficial & Suporte</p>
+                            </div>
+                            <div class="text-center lg:text-left">
+                                <p class="text-xs text-luminosGray uppercase font-medium">Pagamento</p>
+                                <p class="text-xs sm:text-sm font-bold text-luminosDark">Pix & Cartão</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
+                            <div
+                                class="absolute -top-10 -left-10 w-72 h-72 bg-luminosGold/20 rounded-full blur-3xl pointer-events-none">
+                            </div>
+                            <div
+                                class="absolute -bottom-10 -right-10 w-72 h-72 bg-luminosTeal/20 rounded-full blur-3xl pointer-events-none">
+                            </div>
+
+                            <div
+                                class="relative bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-white/80 shadow-xl space-y-4">
+                                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 rounded-2xl bg-luminosTealLight flex items-center justify-center text-luminosTeal">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-luminosDark">Produtos Originais</h4>
+                                            <p class="text-xs text-luminosGray">Qualidade Premium garantida</p>
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold text-luminosTeal bg-luminosTealLight px-2.5 py-1 rounded-full">100%
+                                        Selo LUMINOS</span>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div
+                                        class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-luminosTeal/40 transition-all flex items-center gap-3">
+                                        <div class="text-luminosTeal text-xl"><i
+                                                class="fa-solid fa-mobile-screen-button"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-luminosDark">Celulares</p>
+                                            <p class="text-[10px] text-luminosGray">iPhones & Topos de linha</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-luminosTeal/40 transition-all flex items-center gap-3">
+                                        <div class="text-luminosGold text-xl"><i class="fa-solid fa-wifi"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-luminosDark">Starlink</p>
+                                            <p class="text-[10px] text-luminosGray">Internet Satelital</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-luminosTeal/40 transition-all flex items-center gap-3">
+                                        <div class="text-luminosTeal text-xl"><i class="fa-solid fa-headphones"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold text-luminosDark">Áudio Premium</p>
+                                            <p class="text-[10px] text-luminosGray">Headphones & Earbuds</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-luminosTeal/40 transition-all flex items-center gap-3">
+                                        <div class="text-luminosGold text-xl"><i class="fa-solid fa-chair"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-luminosDark">Cadeiras Gamer</p>
+                                            <p class="text-[10px] text-luminosGray">Ergonomia & Estilo</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="p-3 rounded-xl gold-teal-gradient text-white flex items-center justify-between text-xs font-medium">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fa-solid fa-bolt"></i> Oferta especial de lançamento
+                                    </span>
+                                    <span class="underline cursor-pointer hover:opacity-90"
+                                        onclick="filterCategory('starlink')">Ver Kits</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CATALOG SECTION -->
+        <section id="catalog" class="py-12 bg-white/60 border-t border-b border-slate-200/70">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-luminosTeal mb-1">Nosso Portfólio</p>
+                        <h2 class="text-3xl font-extrabold text-luminosDark tracking-tight">Produtos em Destaque</h2>
+                    </div>
+
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+                        <button onclick="filterCategory('all')" id="btn-all"
+                            class="category-btn active border px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-luminosDark text-white border-luminosDark">
+                            Todos
+                        </button>
+                        <button onclick="filterCategory('celular')" id="btn-celular"
+                            class="category-btn border px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-white text-luminosDark border-slate-200 hover:border-luminosTeal">
+                            Celulares
+                        </button>
+                        <button onclick="filterCategory('starlink')" id="btn-starlink"
+                            class="category-btn border px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-white text-luminosDark border-slate-200 hover:border-luminosTeal">
+                            Starlink
+                        </button>
+                        <button onclick="filterCategory('audio')" id="btn-audio"
+                            class="category-btn border px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-white text-luminosDark border-slate-200 hover:border-luminosTeal">
+                            Fone & Áudio
+                        </button>
+                        <button onclick="filterCategory('cadeira')" id="btn-cadeira"
+                            class="category-btn border px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all bg-white text-luminosDark border-slate-200 hover:border-luminosTeal">
+                            Cadeiras Gamer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                </div>
+
+                <!-- Empty Search Result Alert -->
+                <div id="noResults" class="hidden text-center py-16">
+                    <div
+                        class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-luminosDark mb-1">Nenhum produto encontrado</h3>
+                    <p class="text-sm text-luminosGray mb-4">Tente buscar por outros termos ou selecionar outra
+                        categoria.</p>
+                    <button onclick="filterCategory('all')"
+                        class="text-xs font-semibold text-luminosTeal underline">Limpar Filtros</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- STARLINK SPECIAL BANNER SECTION -->
+        <section id="starlink-highlight" class="py-16 my-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="relative rounded-3xl overflow-hidden bg-luminosDark text-white p-8 sm:p-12 lg:p-16 shadow-2xl">
+                    <div
+                        class="absolute top-0 right-0 w-96 h-96 bg-luminosTeal/20 rounded-full blur-3xl pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/3 w-80 h-80 bg-luminosGold/10 rounded-full blur-3xl pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-8 space-y-5">
+                            <span
+                                class="px-3 py-1 rounded-full bg-luminosGold/20 text-luminosGold text-xs font-bold uppercase tracking-widest border border-luminosGold/30">
+                                Conectividade Global
+                            </span>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                                Internet Starlink de Alta Velocidade Onde Você Estiver
+                            </h2>
+                            <p class="text-slate-300 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+                                Leve internet rápida e estável para áreas rurais, embarcações, fazendas ou para o seu
+                                negócio urbano. Trabalhamos com Kits Completos Standard, V4 e Minis, prontos para
+                                instalação com suporte LUMINOS.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-sm">
+                                    <i class="fa-solid fa-gauge-high text-luminosGold text-lg mb-1"></i>
+                                    <p class="text-xs font-bold">Alta Velocidade</p>
+                                    <p class="text-[11px] text-slate-400">Até 220 Mbps de navegação</p>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-sm">
+                                    <i class="fa-solid fa-satellite-dish text-luminosTeal text-lg mb-1"></i>
+                                    <p class="text-xs font-bold">Fácil Instalação</p>
+                                    <p class="text-[11px] text-slate-400">Plug & Play com aplicativo</p>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-3.5 backdrop-blur-sm">
+                                    <i class="fa-solid fa-headset text-luminosGold text-lg mb-1"></i>
+                                    <p class="text-xs font-bold">Suporte LUMINOS</p>
+                                    <p class="text-[11px] text-slate-400">Auxílio técnico na configuração</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-4 flex flex-col items-center justify-center gap-4 text-center">
+                            <div
+                                class="w-28 h-28 rounded-full bg-gradient-to-tr from-luminosGold/30 to-luminosTeal/30 border border-white/20 flex items-center justify-center shadow-inner">
+                                <i class="fa-solid fa-satellite text-5xl text-white"></i>
+                            </div>
+                            <button
+                                onclick="filterCategory('starlink'); document.getElementById('catalog').scrollIntoView({behavior: 'smooth'})"
+                                class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-luminosGold hover:bg-luminosGoldHover text-luminosDark font-bold text-sm transition-all shadow-lg hover:shadow-luminosGold/20">
+                                Ver Modelos Disponíveis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE LUMINOS / FEATURES -->
+        <section class="py-12 mb-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-luminosDark">Por que escolher a LUMINOS?</h2>
+                    <p class="text-sm text-luminosGray mt-2">Unimos inovação, tecnologia de referência e suporte de
+                        excelência para sua melhor experiência de compra.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
+                        <div
+                            class="w-12 h-12 bg-luminosTealLight text-luminosTeal rounded-2xl flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-luminosDark">Envio Rápido & Seguro</h3>
+                        <p class="text-xs text-luminosGray leading-relaxed">Entregas monitoradas com embalagens
+                            reforçadas para todo o território nacional.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
+                        <div
+                            class="w-12 h-12 bg-amber-50 text-luminosGold rounded-2xl flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-luminosDark">Garantia Comprovada</h3>
+                        <p class="text-xs text-luminosGray leading-relaxed">Produtos 100% originais com garantia de
+                            fábrica.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
+                        <div
+                            class="w-12 h-12 bg-luminosTealLight text-luminosTeal rounded-2xl flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-luminosDark">Atendimento Humanizado</h3>
+                        <p class="text-xs text-luminosGray leading-relaxed">Tire suas dúvidas diretamente com nossa
+                            equipe especializada via WhatsApp.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
+                        <div
+                            class="w-12 h-12 bg-amber-50 text-luminosGold rounded-2xl flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-luminosDark">Pagamento Facilitado</h3>
+                        <p class="text-xs text-luminosGray leading-relaxed">Desconto no Pix ou parcelamento sem juros em
+                            até 3x no cartão.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-luminosDark text-white pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <svg viewBox="0 0 100 100" class="w-8 h-8">
+                            <path d="M 28,20 L 48,20 L 48,65 L 75,65 L 75,80 L 28,80 Z" fill="none" stroke="#D4AF37"
+                                stroke-width="8" stroke-linejoin="round" />
+                        </svg>
+                        <span class="text-xl font-bold tracking-wider text-white">LUMINOS</span>
+                    </div>
+                    <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+                        Sua loja de referência em tecnologia de ponta, celulares avançados, kits de internet via
+                        satélite Starlink, áudio profissional e cadeiras gamer.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-luminosGold hover:border-luminosGold transition-all">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-luminosTeal hover:border-luminosTeal transition-all">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-luminosGold hover:border-luminosGold transition-all">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-luminosGold">Categorias</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="javascript:void(0)" onclick="filterCategory('celular')"
+                                class="hover:text-white transition-colors">Celulares & Smartphones</a></li>
+                        <li><a href="javascript:void(0)" onclick="filterCategory('starlink')"
+                                class="hover:text-white transition-colors">Internet Starlink</a></li>
+                        <li><a href="javascript:void(0)" onclick="filterCategory('audio')"
+                                class="hover:text-white transition-colors">Fones & Headsets</a></li>
+                        <li><a href="javascript:void(0)" onclick="filterCategory('cadeira')"
+                                class="hover:text-white transition-colors">Cadeiras Gamer</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-luminosTeal">Institucional</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Sobre a LUMINOS</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Políticas de Envio</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Termos e Garantias</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trocas e Devoluções</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">Atendimento</h4>
+                    <p class="text-xs text-slate-400">Segunda a Sábado, das 08h às 18h</p>
+                    <p class="text-xs font-semibold text-white">(92) 994367989</p>
+                    <p class="text-xs text-slate-400">contato@luminosstore.com.br</p>
+
+                    <div class="pt-3">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Formas de Pagamento</p>
+                        <div class="flex items-center gap-2 text-slate-400 text-lg">
+                            <i class="fa-brands fa-pix text-emerald-400" title="PIX"></i>
+                            <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                            <i class="fa-brands fa-cc-mastercard" title="MasterCard"></i>
+                            <i class="fa-solid fa-barcode" title="Boleto"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 LUMINOS Tec. Todos os direitos reservados.</p>
+                <p class="flex items-center gap-1">
+                    Desenvolvido por k.dev.br <i class="fa-solid fa-heart text-amber-500 text-[10px]"></i> para LUMINOS Store
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+    <div id="cartOverlay"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"
+        onclick="toggleCart()"></div>
+
+    <aside id="cartDrawer"
+        class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col translate-x-full cart-drawer">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-luminosBg">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-luminosTeal"></i>
+                <h3 class="font-bold text-luminosDark text-base">Seu Carrinho</h3>
+                <span id="cartItemCount"
+                    class="text-xs font-semibold bg-luminosTealLight text-luminosTeal px-2 py-0.5 rounded-full">0
+                    itens</span>
+            </div>
+            <button onclick="toggleCart()" class="text-slate-400 hover:text-luminosDark p-1 rounded-lg">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div id="cartItemsContainer" class="flex-grow overflow-y-auto p-5 space-y-4">
+        </div>
+
+        <div class="p-5 border-t border-slate-100 bg-slate-50 space-y-4">
+            <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs text-luminosGray">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal" class="font-medium text-luminosDark">R$ 0,00</span>
+                </div>
+                <div class="flex items-center justify-between text-xs text-luminosGray">
+                    <span>Frete</span>
+                    <span class="text-emerald-600 font-semibold">Calculado via WhatsApp</span>
+                </div>
+                <div
+                    class="flex items-center justify-between text-sm font-bold text-luminosDark pt-2 border-t border-slate-200">
+                    <span>Total Estimado</span>
+                    <span id="cartTotal" class="text-base text-luminosTeal">R$ 0,00</span>
+                </div>
+            </div>
+
+            <button onclick="checkoutWhatsApp()"
+                class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Finalizar Pedido via WhatsApp</span>
+            </button>
+
+            <p class="text-[11px] text-center text-slate-400">
+                Você será redirecionado para confirmar os detalhes com um atendente LUMINOS.
+            </p>
+        </div>
+    </aside>
+
+    <!-- PRODUCT QUICK VIEW MODAL -->
+    <div id="quickViewModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300"
+        onclick="closeQuickView(event)">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative transition-transform duration-300 scale-95"
+            id="quickViewCard">
+            <button onclick="closeQuickViewModal()"
+                class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="quickViewContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // PRODUCTS DATABASE (Agora com o parâmetro 'image')
+        // Coloque aqui o caminho da imagem no seu computador (ex: 'img/starlink-mini.png') ou o link da imagem na web.
+        const products = [
+            {
+                id: 1,
+                name: "iPhone 17 Pro Max 256GB",
+                category: "celular",
+                price: 7500.00,
+                oldPrice: 10499.00,
+                rating: 5.0,
+                badge: "Lançamento",
+                badgeColor: "bg-amber-100 text-amber-800",
+                icon: "fa-mobile-screen-button",
+                image: "img/iphone17.webp",
+                description: "O smartphone mais poderoso com chip A19 Pro, estrutura em titânio e sistema de câmeras tripla com zoom óptico avançado.",
+                specs: ["Tela Super Retina XDR 6.9\"", "Chip A19 Pro", "Câmera 48MP Pro", "Bateria de longa duração"]
+            },
+            {
+                id: 2,
+                name: "iPhone 16E 128GB - Teal Edition",
+                category: "celular",
+                price: 4690.00,
+                oldPrice: 7099.00,
+                rating: 4.9,
+                badge: "Mais Vendido",
+                badgeColor: "bg-emerald-100 text-emerald-800",
+                icon: "fa-mobile-screen",
+                image: "img/iphone16e.webp",
+                description: "Design moderno com acabamento na cor Teal, sistema de câmera Fusion de 48 MP, Botão de Ação e Chip A18 ultra veloz.",
+                specs: ["Tela Super Retina XDR 6.1\"", "Chip A18", "Botão de Ação", "Resistente à água IP68"]
+            },
+            {
+                id: 3,
+                name: "Antena Starlink Standard",
+                category: "starlink",
+                price: 2715.00,
+                oldPrice: 2890.00,
+                rating: 5.0,
+                badge: "Destaque",
+                badgeColor: "bg-luminosTealLight text-luminosTeal",
+                icon: "fa-satellite-dish",
+                image: "img/starlink.standy.jpg",
+                description: "Kit Completo de Internet via Satélite de Alta Velocidade. Antena auto-orientável e Roteador Wi-Fi 6 de alcance ampliado.",
+                specs: ["Download até 220 Mbps", "Latência Baixa", "Resistente a Chuva e Sol", "Wi-Fi 6 Dual Band"]
+            },
+            {
+                id: 4,
+                name: "Kit Starlink Mini Portátil",
+                category: "starlink",
+                price: 570.00,
+                oldPrice: 1400.00,
+                rating: 4.8,
+                badge: "Novo",
+                badgeColor: "bg-blue-100 text-blue-800",
+                icon: "fa-satellite",
+                image: "starlink.jpg",
+                description: "Internet Starlink ultra portátil para viagens, acampamentos e veículos. Cabe na sua mochila com roteador integrado.",
+                specs: ["Alimentação USB-C/DC", "Design Ultra Fino", "Roteador Wi-Fi Integrado", "Consumo reduzido"]
+            },
+            {
+                id: 5,
+                name: "Headphone JBL Similar",
+                category: "audio",
+                price: 65.00,
+                oldPrice: 140.00,
+                rating: 4.9,
+                badge: "Som Hi-Fi",
+                badgeColor: "bg-purple-100 text-purple-800",
+                icon: "fa-headphones",
+                image: "img/jbl.webp",
+                description: "Cancelamento de Ruído Ativo (ANC) de última geração, drivers de 40mm e até 45 horas de bateria contínua.",
+                specs: ["Cancelamento Ativo de Ruído", "Áudio Espacial", "Bateria 45h", "Conexão Bluetooth 5.3"]
+            },
+            {
+                id: 6,
+                name: "Fone TWS ",
+                category: "audio",
+                price: 75.00,
+                oldPrice: 160.00,
+                rating: 4.7,
+                badge: "Sem Fio",
+                badgeColor: "bg-slate-100 text-slate-800",
+                icon: "fa-circle-nodes",
+                image: "img/fonetws.webp",
+                description: "Fones intra-auriculares sem fio com modo transparência, estojo com carregamento sem fio e proteção IPX4.",
+                specs: ["Estojo Magsafe", "Microfones HD Dual", "Grave Encorpado", "Touch Control"]
+            },
+            {
+                id: 7,
+                name: "Cadeira Gamer V8 Turbo",
+                category: "cadeira",
+                price: 1030.00,
+                oldPrice: 1290.00,
+                rating: 5.0,
+                badge: "Conforto Top",
+                badgeColor: "bg-amber-100 text-amber-800",
+                icon: "fa-chair",
+                image: "img/cadeiragamer.avif",
+                description: "Cadeira Gamer Ergonômica com revestimento premium respirável, suporte lombar ajustável 4D e reclinação em 180°.",
+                specs: ["Pistão Classe 4", "Apoio 4D nos Braços", "Espuma Injetada", "Suporta até 120kg"]
+            },
+            {
+
+                id: 8,
+                name: "Samsung Galaxy A17 128GB - 4RAM ",
+                category: "celular",
+                price: 940.00,
+                oldPrice: 1200.00,
+                rating: 4.9,
+                badge: "Mais Vendido",
+                badgeColor: "bg-emerald-100 text-emerald-800",
+                icon: "fa-mobile-screen",
+                image: "img/celulara17.webp",
+                description: "Smartphone versátil com tela ampla Super AMOLED de 6,7 polegadas, câmera tripla de 50 MP com estabilização óptica e bateria de longa duração.",
+                specs: ["Tela Super AMOLED 6.7\"", "Câmera Tripla 50 MP (OIS)", "Bateria 5000 mAh", "Resistente a respingos IP54"]
+
+            },
+            {   
+                id: 9,
+                name: "Cadeira De Escritório",
+                category: "cadeira",
+                price: 329.00,
+                oldPrice: 500.00,
+                rating: 4.9,
+                badge: "Série Especial",
+                badgeColor: "bg-luminosTealLight text-luminosTeal",
+                icon: "fa-couch",
+                image: "img/cadeiraescrito.webp",
+                description: "Cadeira de escritório ergonômica com encosto em tela Mesh respirável, ajuste de altura a gás e base giratória cromada.",
+                specs: ["Encosto em Tela Mesh", "Ajuste de Altura a Gás", "Base Giratória Cromada", "Apoio para Braços"]
+
+            }
+
+        ];
+
+        // STATE MANAGEMENT
+        let cart = [];
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // FORMAT CURRENCY BR
+        function formatMoney(val) {
+            return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // RENDER PRODUCT CATALOG
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResults');
+
+            const filtered = products.filter(p => {
+                const matchesCategory = (currentFilter === 'all') || (p.category === currentFilter);
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    p.description.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(product => {
+                // Se o produto tiver imagem, mostra a tag <img>. Caso contrário, usa o ícone de reserva.
+                const mediaHTML = product.image
+                    ? `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300">`
+                    : `<i class="fa-solid ${product.icon} text-6xl text-slate-300 group-hover:scale-110 group-hover:text-luminosTeal transition-all duration-300"></i>`;
+
+                return `
+                <div class="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+                    <div>
+                        <!-- Card Header / Badge -->
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[11px] font-bold px-2.5 py-1 rounded-full ${product.badgeColor}">
+                                ${product.badge}
+                            </span>
+                            <div class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-400"></i> ${product.rating}
+                            </div>
+                        </div>
+
+                        <!-- Product Visual Illustration / Image Container -->
+                        <div class="w-full h-44 bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center mb-5 relative overflow-hidden group-hover:from-slate-100 group-hover:to-slate-200 transition-colors">
+                            ${mediaHTML}
+                            
+                            <!-- Quick View Overlay Button -->
+                            <button onclick="openQuickView(${product.id})" class="absolute bottom-3 bg-white/90 backdrop-blur text-luminosDark text-xs font-bold px-3 py-1.5 rounded-lg shadow opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-1.5 hover:bg-luminosDark hover:text-white">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </button>
+                        </div>
+
+                        <!-- Title & Description -->
+                        <h3 class="font-bold text-base text-luminosDark mb-1 group-hover:text-luminosTeal transition-colors line-clamp-1">${product.name}</h3>
+                        <p class="text-xs text-luminosGray mb-4 line-clamp-2 leading-relaxed">${product.description}</p>
+                    </div>
+
+                    <!-- Pricing & Action -->
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <div>
+                            <p class="text-[10px] text-slate-400 line-through">${formatMoney(product.oldPrice)}</p>
+                            <p class="text-base font-extrabold text-luminosDark">${formatMoney(product.price)}</p>
+                        </div>
+
+                        <button onclick="addToCart(${product.id})" class="px-3.5 py-2.5 rounded-xl bg-luminosTealLight text-luminosTeal font-bold text-xs hover:bg-luminosTeal hover:text-white transition-all flex items-center gap-1.5 active:scale-95">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span class="hidden sm:inline">Adicionar</span>
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // FILTER CATEGORIES
+        function filterCategory(cat) {
+            currentFilter = cat;
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-luminosDark', 'text-white', 'border-luminosDark');
+                btn.classList.add('bg-white', 'text-luminosDark', 'border-slate-200');
+            });
+
+            const activeBtn = document.getElementById(`btn-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-luminosDark', 'border-slate-200');
+                activeBtn.classList.add('bg-luminosDark', 'text-white', 'border-luminosDark');
+            }
+
+            renderProducts();
+        }
+
+        // SEARCH HANDLERS
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderProducts();
+        }
+
+        function handleSearchMobile() {
+            searchQuery = document.getElementById('searchInputMobile').value;
+            renderProducts();
+        }
+
+        // CART LOGIC
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            openCart();
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItemCount = document.getElementById('cartItemCount');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTotal = document.getElementById('cartTotal');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            cartBadge.innerText = totalCount;
+            cartItemCount.innerText = `${totalCount} ${totalCount === 1 ? 'item' : 'itens'}`;
+            cartSubtotal.innerText = formatMoney(totalPrice);
+            cartTotal.innerText = formatMoney(totalPrice);
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-bag-shopping text-4xl mb-3 opacity-40"></i>
+                        <p class="text-sm font-semibold text-luminosDark">Seu carrinho está vazio</p>
+                        <p class="text-xs text-luminosGray mt-1">Explore os produtos e adicione seus favoritos!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => {
+                const thumbHTML = item.image
+                    ? `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain p-1">`
+                    : `<i class="fa-solid ${item.icon}"></i>`;
+
+                return `
+                <div class="flex items-center justify-between gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-luminosTeal text-xl border border-slate-200 overflow-hidden">
+                        ${thumbHTML}
+                    </div>
+
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-bold text-luminosDark line-clamp-1">${item.name}</h4>
+                        <p class="text-xs font-semibold text-luminosTeal">${formatMoney(item.price)}</p>
+                        
+                        <div class="flex items-center gap-2 mt-1">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-5 h-5 rounded-md bg-slate-200 text-slate-600 text-xs flex items-center justify-center hover:bg-slate-300">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-5 h-5 rounded-md bg-slate-200 text-slate-600 text-xs flex items-center justify-center hover:bg-slate-300">+</button>
+                        </div>
+                    </div>
+
+                    <button onclick="removeFromCart(${item.id})" class="text-slate-400 hover:text-red-500 p-1">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                </div>
+            `}).join('');
+        }
+
+        // CART DRAWER TOGGLE
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+
+            if (drawer.classList.contains('translate-x-full')) {
+                openCart();
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function openCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+
+            drawer.classList.remove('translate-x-full');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        // CHECKOUT VIA WHATSAPP
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio! Adicione produtos antes de finalizar.");
+                return;
+            }
+
+            let message = "Olá LUMINOS! Gostaria de finalizar o seguinte pedido:\n\n";
+            cart.forEach(item => {
+                message += `• *${item.name}* (x${item.quantity}) - ${formatMoney(item.price * item.quantity)}\n`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\n*Total Estimado:* ${formatMoney(total)}`;
+            message += `\n\nPor favor, confirmem a disponibilidade para entrega. Formas de pagamento via Pix ou Cartão.`;
+
+            const phone = "5592994367989";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // QUICK VIEW MODAL
+        function openQuickView(id) {
+            const p = products.find(prod => prod.id === id);
+            if (!p) return;
+
+            const modal = document.getElementById('quickViewModal');
+            const card = document.getElementById('quickViewCard');
+            const content = document.getElementById('quickViewContent');
+
+            const modalMedia = p.image
+                ? `<img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain p-4">`
+                : `<i class="fa-solid ${p.icon}"></i>`;
+
+            content.innerHTML = `
+                <div class="w-full h-56 bg-slate-100 rounded-2xl flex items-center justify-center text-6xl text-luminosTeal overflow-hidden">
+                    ${modalMedia}
+                </div>
+                <div class="space-y-4">
+                    <span class="text-[11px] font-bold px-2.5 py-1 rounded-full ${p.badgeColor}">
+                        ${p.badge}
+                    </span>
+                    <h3 class="text-xl font-extrabold text-luminosDark">${p.name}</h3>
+                    <p class="text-xs text-luminosGray leading-relaxed">${p.description}</p>
+                    
+                    <div>
+                        <p class="text-xs font-bold text-luminosDark mb-1">Especificações Principais:</p>
+                        <ul class="text-xs text-luminosGray space-y-1 list-disc pl-4">
+                            ${p.specs.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="pt-2">
+                        <p class="text-xs text-slate-400 line-through">${formatMoney(p.oldPrice)}</p>
+                        <p class="text-2xl font-extrabold text-luminosDark">${formatMoney(p.price)}</p>
+                    </div>
+
+                    <button onclick="addToCart(${p.id}); closeQuickViewModal();" class="w-full py-3 rounded-xl bg-luminosDark text-white font-bold text-xs hover:bg-slate-800 transition-all shadow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+        }
+
+        function closeQuickViewModal() {
+            const modal = document.getElementById('quickViewModal');
+            const card = document.getElementById('quickViewCard');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.add('scale-95');
+        }
+
+        function closeQuickView(e) {
+            if (e.target.id === 'quickViewModal') {
+                closeQuickViewModal();
+            }
+        }
+
+        // INITIALIZE PAGE
+        window.onload = function () {
+            renderProducts();
+            updateCartUI();
+        };
+    </script>
+</body>
+
+</html>
